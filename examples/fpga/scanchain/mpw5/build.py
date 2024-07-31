@@ -124,6 +124,11 @@ Flow(
 
 
 def iter_instances(module):
+    """
+
+    :param module: 
+
+    """
     if module.name == "top":
         # zig-zag
         for x in range(module.width):
@@ -156,6 +161,14 @@ Flow(
 
 
 def create_io(x, y, subtile, global_=None):
+    """
+
+    :param x: 
+    :param y: 
+    :param subtile: 
+    :param global_:  (Default value = None)
+
+    """
     return IO((PortDirection.input_, PortDirection.output), (x, y), subtile, global_)
 
 
