@@ -33,7 +33,7 @@ ff = builder.instantiate(ctx.primitives["flipflop"], "ff")
 builder.connect(clk, ff.pins["clk"])
 builder.connect(i, lut.pins["in"])
 builder.connect(lut.pins["out"], o)
-builder.connect(lut.pins["out"], ff.pins["D"], vpr_pack_patterns=("lut_dff",))
+builder.connect(lut.pins["out"], ff.pins["D"], vpr_pack_patterns=("lut_dff", ))
 builder.connect(ff.pins["Q"], o)
 cluster = builder.commit()
 
@@ -63,7 +63,8 @@ for n, m in InterconnectAlgorithms.crossbar(len(in_), N, 2 * k):
 print("iport-ipin:", cons)
 for i, con in enumerate(cons):
     for j, c in enumerate(con):
-        builder.connect(in_[c], builder.instances["cluster", i].pins["i"][j % k])
+        builder.connect(in_[c], builder.instances["cluster",
+                                                  i].pins["i"][j % k])
 
 # each input pin of `inst` connects to 1 output pins of another `inst`
 cons = [[] for _ in range(N)]
@@ -171,7 +172,8 @@ def create_io(x, y, subtile, global_=None):
     :param global_:  (Default value = None)
 
     """
-    return IO((PortDirection.input_, PortDirection.output), (x, y), subtile, global_)
+    return IO((PortDirection.input_, PortDirection.output), (x, y), subtile,
+              global_)
 
 
 ctx.summary.ios = [
@@ -235,7 +237,8 @@ with open("rtl/Flist.clb", "w") as f:
     for ff in flist:
         f.write("rtl/" + ff + "\n")
 
-visited, next_, flist = [top.key], [ctx.database[ModuleView.design, top.key]], []
+visited, next_, flist = [top.key], [ctx.database[ModuleView.design,
+                                                 top.key]], []
 while next_:
     d = next_.pop(0)
     flist.append(getattr(d, "verilog_src", d.name + ".v"))
@@ -271,6 +274,10 @@ with open("pinout.txt", "w") as f:
     f.write(s)
 
     for io, id_ in zip(ctx.summary.ios[1:], reversed(range(2, 34))):
-        f.write(tmpl.format(pin=id_, x=io.position.x, y=io.position.y, z=io.subtile))
+        f.write(
+            tmpl.format(pin=id_,
+                        x=io.position.x,
+                        y=io.position.y,
+                        z=io.subtile))
 
     f.write("\n")

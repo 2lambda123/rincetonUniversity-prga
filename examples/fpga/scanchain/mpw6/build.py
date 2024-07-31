@@ -11,7 +11,8 @@ from prga.core.common import PortDirection
 k, N, W, H = 4, 8, 10, 10
 ext_prog_clk = False
 
-print("[INFO] Using {} prog_clk".format("external" if ext_prog_clk else "internal"))
+print("[INFO] Using {} prog_clk".format(
+    "external" if ext_prog_clk else "internal"))
 
 # secondary parameters
 n_L1 = 12
@@ -36,7 +37,7 @@ ff = builder.instantiate(ctx.primitives["flipflop"], "ff")
 builder.connect(clk, ff.pins["clk"])
 builder.connect(i, lut.pins["in"])
 builder.connect(lut.pins["out"], o)
-builder.connect(lut.pins["out"], ff.pins["D"], vpr_pack_patterns=("lut_dff",))
+builder.connect(lut.pins["out"], ff.pins["D"], vpr_pack_patterns=("lut_dff", ))
 builder.connect(ff.pins["Q"], o)
 cluster = builder.commit()
 
@@ -66,7 +67,8 @@ for n, m in InterconnectAlgorithms.crossbar(len(in_), N, 2 * k):
 print("iport-ipin:", cons)
 for i, con in enumerate(cons):
     for j, c in enumerate(con):
-        builder.connect(in_[c], builder.instances["cluster", i].pins["i"][j % k])
+        builder.connect(in_[c], builder.instances["cluster",
+                                                  i].pins["i"][j % k])
 
 # each input pin of `inst` connects to 1 output pins of another `inst`
 cons = [[] for _ in range(N)]
@@ -174,7 +176,8 @@ def create_io(x, y, subtile, global_=None):
     :param global_:  (Default value = None)
 
     """
-    return IO((PortDirection.input_, PortDirection.output), (x, y), subtile, global_)
+    return IO((PortDirection.input_, PortDirection.output), (x, y), subtile,
+              global_)
 
 
 ios = [
@@ -193,38 +196,36 @@ ios = [
 if ext_prog_clk:
     ios.append(create_io(0, 6, 1))
 
-ios.extend(
-    [
-        create_io(0, 7, 0),
-        create_io(0, 8, 0),
-        # north bank: 9 I/Os
-        create_io(1, H - 1, 0),
-        create_io(2, H - 1, 0),
-        create_io(2, H - 1, 1),
-        create_io(3, H - 1, 0),
-        create_io(4, H - 1, 0),
-        create_io(5, H - 1, 0),
-        create_io(6, H - 1, 0),
-        create_io(7, H - 1, 0),
-        # create_io (7, H-1, 1),
-        create_io(8, H - 1, 1),
-        # east bank: 13 I/Os, but less recommended for use
-        # create_io (9, 8, 1),
-        create_io(W - 1, 8, 0),
-        create_io(W - 1, 7, 1),
-        create_io(W - 1, 7, 0),
-        create_io(W - 1, 6, 0),
-        create_io(W - 1, 5, 1),
-        create_io(W - 1, 5, 0),
-        create_io(W - 1, 4, 0),
-        create_io(W - 1, 3, 1),
-        create_io(W - 1, 3, 0),
-        create_io(W - 1, 2, 1),
-        create_io(W - 1, 2, 0),
-        create_io(W - 1, 1, 1),
-        create_io(W - 1, 1, 0),
-    ]
-)
+ios.extend([
+    create_io(0, 7, 0),
+    create_io(0, 8, 0),
+    # north bank: 9 I/Os
+    create_io(1, H - 1, 0),
+    create_io(2, H - 1, 0),
+    create_io(2, H - 1, 1),
+    create_io(3, H - 1, 0),
+    create_io(4, H - 1, 0),
+    create_io(5, H - 1, 0),
+    create_io(6, H - 1, 0),
+    create_io(7, H - 1, 0),
+    # create_io (7, H-1, 1),
+    create_io(8, H - 1, 1),
+    # east bank: 13 I/Os, but less recommended for use
+    # create_io (9, 8, 1),
+    create_io(W - 1, 8, 0),
+    create_io(W - 1, 7, 1),
+    create_io(W - 1, 7, 0),
+    create_io(W - 1, 6, 0),
+    create_io(W - 1, 5, 1),
+    create_io(W - 1, 5, 0),
+    create_io(W - 1, 4, 0),
+    create_io(W - 1, 3, 1),
+    create_io(W - 1, 3, 0),
+    create_io(W - 1, 2, 1),
+    create_io(W - 1, 2, 0),
+    create_io(W - 1, 1, 1),
+    create_io(W - 1, 1, 0),
+])
 
 ctx.summary.ios = ios
 
@@ -248,7 +249,8 @@ with open("rtl/Flist.clb", "w") as f:
     for ff in flist:
         f.write("rtl/" + ff + "\n")
 
-visited, next_, flist = [top.key], [ctx.database[ModuleView.design, top.key]], []
+visited, next_, flist = [top.key], [ctx.database[ModuleView.design,
+                                                 top.key]], []
 while next_:
     d = next_.pop(0)
     flist.append(getattr(d, "verilog_src", d.name + ".v"))
@@ -299,10 +301,13 @@ with open("pinout.txt", "w") as f:
     else:
         f.write(s_int_clk)
 
-    for io, id_ in zip(
-        ctx.summary.ios[1:], reversed(range(2, 33 if ext_prog_clk else 32))
-    ):
-        f.write(tmpl.format(pin=id_, x=io.position.x, y=io.position.y, z=io.subtile))
+    for io, id_ in zip(ctx.summary.ios[1:],
+                       reversed(range(2, 33 if ext_prog_clk else 32))):
+        f.write(
+            tmpl.format(pin=id_,
+                        x=io.position.x,
+                        y=io.position.y,
+                        z=io.subtile))
 
     f.write("\n")
 
@@ -344,7 +349,10 @@ with open("conn.v", "w") as f:
     else:
         f.write(s_int_clk)
 
-    for io, id_ in zip(
-        ctx.summary.ios[1:], reversed(range(2, 33 if ext_prog_clk else 32))
-    ):
-        f.write(tmpl.format(pin=id_, x=io.position.x, y=io.position.y, z=io.subtile))
+    for io, id_ in zip(ctx.summary.ios[1:],
+                       reversed(range(2, 33 if ext_prog_clk else 32))):
+        f.write(
+            tmpl.format(pin=id_,
+                        x=io.position.x,
+                        y=io.position.y,
+                        z=io.subtile))
