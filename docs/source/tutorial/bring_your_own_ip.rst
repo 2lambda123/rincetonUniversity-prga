@@ -88,7 +88,7 @@ primitive.
 Note that we don't need to add the ports that we won't be using.
 
 .. code-block:: Python
-   
+
    # only create used ports
    #                                   name,        width
    clk         = builder.create_clock ("clk")
@@ -121,7 +121,7 @@ Currently, PRGA supports the following types of timing arcs:
 - ``"seq_end"``: Sequential endpoint, e.g. the input of a flipflop.
   Similar to a sequential startpoint, the "source" must be a clock, while the
   "sink" may be an input port or an output port.
-   
+
 .. code-block:: Python
 
    # timing arcs
@@ -144,7 +144,7 @@ the same Verilog file for the
 :ref:`design<arch:Module Views of Logic Primitives>` view.
 PRGA provides a handy method to do so, saving you from specifying the ports
 again.
-   
+
 .. code-block:: Python
 
    # Commit the abstract view, and then automatically create the design view
@@ -177,7 +177,7 @@ synthesis.
 The file can be found at
 `examples/fpga/magic/hardpico/src/dffn.techmap.tmpl.v`_.
 For more information on the format and syntax of the technology mapping file,
-check out `Yosys`_ 's documentation on the `techmap`_ command. 
+check out `Yosys`_ 's documentation on the `techmap`_ command.
 To make PRGA aware of this technology mapping file, use the ``techmap_template``
 and ``techmap_order`` arguments to the `Context.build_primitive` method.
 Note that we are using relative path for the ``techmap_template`` argument here,
@@ -198,16 +198,16 @@ which requires us to add the directory to our template search path later.
            techmap_template = "dffn.techmap.tmpl.v",
            techmap_order = -1.,    # techmap `dffn` after LUT mapping
            )
-   
+
    # ports
    clk = builder.create_clock ("clk")
    D   = builder.create_input ("D", 1)
    Q   = builder.create_output("Q", 1)
-   
+
    # timing arcs
    builder.create_timing_arc(TimingArcType.seq_end,   clk, D)
    builder.create_timing_arc(TimingArcType.seq_start, clk, Q)
-   
+
    # design view
    builder = builder.build_design_view_counterpart(
            # Use absolute path here, so the file is not copied into our generated RTL directory
@@ -251,12 +251,12 @@ specifically, line 180 - 198:
                    },
                },
            )
-           
+
 First of all, as a reminder, the code above is building the block in the
 :ref:`abstract<arch:Module Views of Logic Primitives>` view.
 The extra argument to the ``builder.instantiate(...)`` function call,
 ``translate_attrs``, is a keyword-only argument of type :py:obj:`dict`,
-specifying attributes that should be added to that instance in the 
+specifying attributes that should be added to that instance in the
 :ref:`design<arch:Module Views of Logic Primitives>` view during
 :ref:`Translation<workflow:Flow and Passes>`, i.e., when PRGA
 generates the :ref:`design<arch:Module Views of Logic Primitives>`

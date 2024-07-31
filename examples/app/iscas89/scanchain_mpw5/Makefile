@@ -7,7 +7,7 @@ all: result
 	echo "pack: $$(grep pack $< | wc -l)"
 	echo "syn: $$(grep syn $< | wc -l)"
 	echo "fail: $$(grep fail $< | wc -l)"
-	
+
 result: $(tests)
 	rm -f result
 	for t in $(tests); do \

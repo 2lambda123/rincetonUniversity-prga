@@ -131,7 +131,7 @@ Flow(
 def iter_instances(module):
     """
 
-    :param module: 
+    :param module:
 
     """
     if module.name == "top":
@@ -168,9 +168,9 @@ Flow(
 def create_io(x, y, subtile, global_=None):
     """
 
-    :param x: 
-    :param y: 
-    :param subtile: 
+    :param x:
+    :param y:
+    :param subtile:
     :param global_:  (Default value = None)
 
     """
@@ -263,34 +263,34 @@ with open("rtl/Flist.top", "w") as f:
         f.write("rtl/" + ff + "\n")
 
 # pinout
-s_ext_clk = """      chip-level I/O       |  PRGA top pin  | direction 
+s_ext_clk = """      chip-level I/O       |  PRGA top pin  | direction
 ---------------------------+----------------+-----------
- clock                     | prog_clk       |  I        
- mprj io[37]               | ipin_x0y1_0    |  I        
- mprj io[36]               | prog_din       |  I        
- mprj io[35]               | prog_done      |  I        
- mprj io[34]               | prog_rst       |  I        
- mprj io[33]               | prog_we        |  I        
+ clock                     | prog_clk       |  I
+ mprj io[37]               | ipin_x0y1_0    |  I
+ mprj io[36]               | prog_din       |  I
+ mprj io[35]               | prog_done      |  I
+ mprj io[34]               | prog_rst       |  I
+ mprj io[33]               | prog_we        |  I
  mprj io[1]                | prog_dout      |  O
  mprj io[0]                | prog_we_o      |  O
 ---------------------------+----------------+-----------"""
 
-s_int_clk = """      chip-level I/O       |  PRGA top pin  | direction 
+s_int_clk = """      chip-level I/O       |  PRGA top pin  | direction
 ---------------------------+----------------+-----------
- mprj io[37]               | prog_clk       |  I        
- mprj io[36]               | ipin_x0y1_0    |  I        
- mprj io[35]               | prog_din       |  I        
- mprj io[34]               | prog_done      |  I        
- mprj io[33]               | prog_rst       |  I        
- mprj io[32]               | prog_we        |  I        
+ mprj io[37]               | prog_clk       |  I
+ mprj io[36]               | ipin_x0y1_0    |  I
+ mprj io[35]               | prog_din       |  I
+ mprj io[34]               | prog_done      |  I
+ mprj io[33]               | prog_rst       |  I
+ mprj io[32]               | prog_we        |  I
  mprj io[1]                | prog_dout      |  O
  mprj io[0]                | prog_we_o      |  O
 ---------------------------+----------------+-----------"""
 
 tmpl = """
-                           | ipin_x{x}y{y}_{z}    |  I        
- mprj io[{pin:>2d}]               | opin_x{x}y{y}_{z}    |  O        
-                           | oe_x{x}y{y}_{z}      |  O        
+                           | ipin_x{x}y{y}_{z}    |  I
+ mprj io[{pin:>2d}]               | opin_x{x}y{y}_{z}    |  O
+                           | oe_x{x}y{y}_{z}      |  O
 ---------------------------+----------------+-----------"""
 
 with open("pinout.txt", "w") as f:

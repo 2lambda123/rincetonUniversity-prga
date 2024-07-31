@@ -21,7 +21,7 @@ RTL-to-bitstream flow.
 
     from prga import *
     from itertools import product
-    
+
     import sys
 
     # create a new context
@@ -32,7 +32,7 @@ Here, we first describe the routing resources in the FPGA: the routing wire
 segments and the global wires.
 
 .. code-block:: python
-    
+
     # create global clock
     gbl_clk = ctx.create_global("clk", is_clock = True)
 
@@ -59,7 +59,7 @@ use them when we describe CLB/IOBs. For example, PRGA provides an API to create
 a memory module:
 
 .. code-block:: python
-    
+
     # create a memory primitive: addr width,   data width
     memory = ctx.create_memory(  8,            8 )
 
@@ -68,7 +68,7 @@ for example `Context.build_primitive`. Multi-modal primitives are also supported
 by calling `Context.build_multimode`.
 
 ::
-    
+
     TODO: Add tutorials for adding custom Verilog modules and multi-modal
     primitives.
 
@@ -106,7 +106,7 @@ The fracturable LUT6 may be used as two LUT5s with shared inputs.
     # Instantiate logic primitives
     #                                            module to be instantiated, name,        number of instances
     for i, inst in enumerate(builder.instantiate(ctx.primitives["fle6"],    "i_cluster", 2)):
-        
+
         # connect nets:  driver (source) nets,  drivee (sink) nets
         builder.connect( clk,                   inst.pins['clk'] )
         builder.connect( in_[6*i : 6*(i+1)],    inst.pins['in']  )
@@ -138,7 +138,7 @@ The fracturable LUT6 may be used as two LUT5s with shared inputs.
     o = builder.create_input("outpad", 1)
     i = builder.create_output("inpad", 1)
 
-    # connect 
+    # connect
     builder.connect(builder.instances['io'].pins['inpad'], i)
     builder.connect(o, builder.instances['io'].pins['outpad'])
 
@@ -234,7 +234,7 @@ and switch box slots:
     # Select a switch box pattern. Supported values are:
     #   wilton, universal, subset, cycle_free
     pattern = SwitchBoxPattern.wilton
-    
+
     # Create an array builder
     #                         name,       width, height
     builder = ctx.build_array('subarray', 4,     4,     set_as_top = False)
