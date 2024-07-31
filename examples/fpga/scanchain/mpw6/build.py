@@ -1,9 +1,9 @@
-from prga import *
-from prga.core.common import IO, IOType, PortDirection
-from prga.algorithm.interconnect import InterconnectAlgorithms
+import sys
 from itertools import product
 
-import sys
+from prga import *
+from prga.algorithm.interconnect import InterconnectAlgorithms
+from prga.core.common import IO, IOType, PortDirection
 
 # key parameters
 k, N, W, H = 4, 8, 10, 10
