@@ -3,7 +3,9 @@ from itertools import product
 
 from prga import *
 from prga.algorithm.interconnect import InterconnectAlgorithms
-from prga.core.common import IO, IOType, PortDirection
+from prga.core.common import IO
+from prga.core.common import IOType
+from prga.core.common import PortDirection
 
 # key parameters
 k, N, W, H = 4, 8, 11, 11
